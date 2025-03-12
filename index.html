@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Fast Recap - เลือกวิดีโอ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white shadow p-4 flex justify-between items-center">
+    <div class="flex items-center space-x-2">
+      <a href="home.html" class="text-blue-600 text-xl font-bold">🏠 Fast Recap</a>
+    </div>
+    <nav class="space-x-4">
+      <a href="index.html" class="text-blue-600 font-semibold">🎬 เลือกวิดีโอ</a>
+      <a href="history.html" class="text-gray-600 hover:text-blue-500">📂 วิดีโอที่สร้างแล้ว</a>
+    </nav>
+  </header>
+
+  <main class="max-w-4xl mx-auto p-6 space-y-6">
+    <h2 class="text-2xl font-semibold mb-4">🎬 เลือกวิดีโอที่คุณต้องการ</h2>
+
+    <!-- วิดีโอตัวอย่าง -->
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <!-- Video 1 -->
+      <div class="bg-white shadow rounded p-2">
+        <img
+          src="https://no-cdn.shortpixel.ai/client/to_avif,q_lossy,ret_wait/https://shortpixel.com/blog/wp-content/uploads/2023/12/nyan-cat.gif"
+          class="rounded mb-2" />
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" />
+          <span>Video 1</span>
+        </label>
+      </div>
+      <!-- Video 2 -->
+      <div class="bg-white shadow rounded p-2">
+        <img
+          src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTN5aWUzbGw0ajNtMXN4dnptenZ6ZTgzdmFrcHkxMWo2cnJiOTZ5NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lJNoBCvQYp7nq/giphy.gif"
+          class="rounded mb-2" />
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" />
+          <span>Video 2</span>
+        </label>
+      </div>
+      <!-- Video 3 -->
+      <div class="bg-white shadow rounded p-2">
+        <img
+          src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTV6NjgzZmRleDF0dW9ibmF6NnA5MmRleHZrMngzazExaGdocWFjZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ZdrUuSEC0LygaFXtNT/giphy.gif"
+          class="rounded mb-2" />
+        <label class="flex items-center space-x-2">
+          <input type="checkbox" />
+          <span>Video 3</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- ปุ่มสร้างวิดีโอ -->
+    <div class="text-center space-y-2">
+      <button id="generateBtn"
+        class="bg-blue-600 text-white px-6 py-3 rounded-full text-lg font-semibold hover:bg-blue-700 shadow">
+        ⚡ สร้างวิดีโอไฮไลต์อัตโนมัติ
+      </button>
+      <p id="warningText" class="text-red-600 hidden">⚠️ กรุณาเลือกวิดีโออย่างน้อย 2 รายการ</p>
+    </div>
+
+
+    <!-- Progress Circle -->
+    <div id="progressContainer" class="hidden flex justify-center items-center mt-10">
+      <div class="relative w-40 h-40">
+        <svg class="w-full h-full" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="45" stroke="#e5e7eb" stroke-width="10" fill="none" />
+          <circle id="progressCircle" cx="50" cy="50" r="45" stroke="#3b82f6" stroke-width="10" fill="none"
+            stroke-linecap="round" stroke-dasharray="282.6" stroke-dashoffset="282.6" />
+        </svg>
+        <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center">
+          <span id="progressText" class="text-xl font-bold text-blue-600">0%</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Script โหลดและ redirect -->
+  <script>
+    const generateBtn = document.getElementById('generateBtn');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressCircle = document.getElementById('progressCircle');
+    const progressText = document.getElementById('progressText');
+    const warningText = document.getElementById('warningText');
+
+    generateBtn.addEventListener('click', () => {
+      const selectedVideos = document.querySelectorAll('input[type="checkbox"]:checked');
+
+      if (selectedVideos.length < 2) {
+        warningText.classList.remove('hidden');
+        return;
+      }
+
+      warningText.classList.add('hidden');
+      generateBtn.classList.add('hidden');
+      progressContainer.classList.remove('hidden');
+
+      let percent = 0;
+      const interval = setInterval(() => {
+        percent++;
+        const offset = 282.6 - (282.6 * percent) / 100;
+        progressCircle.style.strokeDashoffset = offset;
+        progressText.textContent = `${percent}%`;
+
+        if (percent >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            window.location.href = 'history.html';
+          }, 500);
+        }
+      }, 30);
+    });
+  </script>
+
+
+</body>
+
+</html>
