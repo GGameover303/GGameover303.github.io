@@ -89,26 +89,40 @@
     const progressCircle = document.getElementById('progressCircle');
     const progressText = document.getElementById('progressText');
     const warningText = document.getElementById('warningText');
-
+    const videoContainer = document.querySelector('.grid'); // คอนเทนเนอร์ของวิดีโอ
+  
     generateBtn.addEventListener('click', () => {
       const selectedVideos = document.querySelectorAll('input[type="checkbox"]:checked');
-
+      const allVideos = document.querySelectorAll('.bg-white.shadow.rounded.p-2');
+  
       if (selectedVideos.length < 2) {
         warningText.classList.remove('hidden');
         return;
       }
-
+  
       warningText.classList.add('hidden');
       generateBtn.classList.add('hidden');
       progressContainer.classList.remove('hidden');
-
+  
+      // ซ่อนวิดีโอที่ไม่ได้เลือก
+      allVideos.forEach(video => {
+        const checkbox = video.querySelector('input[type="checkbox"]');
+        if (!checkbox.checked) {
+          video.classList.add('hidden');
+        }
+      });
+  
+      // จัดให้อยู่กึ่งกลางโดยเปลี่ยน layout
+      videoContainer.classList.remove('grid-row-2', 'md:grid-row-3');
+      videoContainer.classList.add('flex', 'justify-center', 'items-center', 'gap-4', 'flex-wrap');
+  
       let percent = 0;
       const interval = setInterval(() => {
         percent++;
         const offset = 282.6 - (282.6 * percent) / 100;
         progressCircle.style.strokeDashoffset = offset;
         progressText.textContent = `${percent}%`;
-
+  
         if (percent >= 100) {
           clearInterval(interval);
           setTimeout(() => {
@@ -118,6 +132,7 @@
       }, 30);
     });
   </script>
+    
 
 
 </body>
