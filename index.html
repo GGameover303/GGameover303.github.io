@@ -1,66 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 
 <head>
   <meta charset="UTF-8" />
-  <title>Fast Recap - หน้าหลัก</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Page</title>
+  <link rel="stylesheet" href="index.css" />
 </head>
 
-<body class="bg-gray-100 text-gray-800">
+<body>
+  <video class="videoBG" src="assets/gifBG.mp4" autoplay muted loop></video>
 
-  <!-- Header -->
-  <header class="bg-white shadow p-4 flex items-center justify-between">
-    <div class="flex items-center space-x-2">
-      <a href="index.html" class="text-blue-600 text-xl font-bold">🏠 Fast Recap</a>
-    </div>
-    <nav class="space-x-4">
-      <a href="workshop.html" class="hover:text-blue-500">🎬 เลือกวิดีโอ</a>
-      <a href="history.html" class="hover:text-blue-500">📂 วิดีโอที่สร้างแล้ว</a>
-    </nav>
-  </header>
+  <div class="login-container">
+    <div class="logo"><img src="assets/Logo/fastrecap_logo.png"></div>
 
-  <main class="flex flex-col items-center justify-center min-h-screen px-4 text-center space-y-6">
-    <img src="image/fastrecap_logo.png" alt="Fast Recap" class="max-w-md mx-auto">
-    <h2 class="text-3xl font-bold text-gray-800">สร้างวิดีโอไฮไลต์อัตโนมัติจากคลิปของคุณ 🎥</h2>
-    <p class="text-gray-600 max-w-md">
-      เชื่อมต่อบัญชีของคุณเพื่อเริ่มใช้งาน Fast Recap!
-    </p>
+    <input type="email" placeholder="Email" required />
+    <input type="password" placeholder="Password" required />
 
-    <!-- ปุ่มเชื่อมบัญชี -->
-    <div class="space-x-4 flex">
-      <!-- YouTube -->
-      <a href="workshop.html">
-        <button class="flex items-center justify-center bg-red-600 text-white px-6 py-3 rounded-full shadow hover:bg-red-700 w-64 space-x-3">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube" class="w-8 h-8">
-          <span>เชื่อมบัญชี YouTube</span>
-        </button>
-      </a>
-    
-      <!-- TikTok -->
-      <a href="workshop.html">
-        <button class="flex items-center justify-center bg-black text-white px-6 py-3 rounded-full shadow hover:bg-gray-900 w-64 space-x-3">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/TikTok_logo.svg" alt="TikTok" class="w-8 h-8">
-          <span>เชื่อมบัญชี TikTok</span>
-        </button>
-      </a>
-    
-      <!-- Facebook -->
-      <a href="workshop.html">
-        <button class="flex items-center justify-center bg-blue-700 text-white px-6 py-3 rounded-full shadow hover:bg-blue-800 w-64 space-x-3">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" class="w-8 h-8">
-          <span>เชื่อมบัญชี Facebook</span>
-        </button>
-      </a>
-    </div>
-    
-    <!-- ไปหน้าเลือกวิดีโอ -->
-    <a href="workshop.html" class="mt-6 inline-block bg-blue-600 text-white px-8 py-3 rounded-full text-lg hover:bg-blue-700 shadow">
-      👉 ไปเลือกวิดีโอ
+    <a href="#" class="forgot">ลืมรหัสผ่าน?</a>
+
+    <a href="workspace.html" class="login">
+      <button class="login-btn">เข้าสู่ระบบ</button>
     </a>
-    
 
-  </main>
+
+    <div class="or">หรือ</div>
+
+    <div class="social-login-icons">
+      <a href="#" class="social-icon">
+        <img src="assets/Logo/google.png" alt="Google Login" />
+      </a>
+      <a href="#" class="social-icon">
+        <img src="assets/Logo/youtube.png" alt="Youtube Login" />
+      </a>
+      <a href="#" class="social-icon">
+        <img src="assets/Logo/facebook.png" alt="Facebook Login" />
+      </a>
+      <a href="#" class="social-icon">
+        <img src="assets/Logo/instagram.png" alt="Instagram Login" />
+      </a>
+      <a href="#" class="social-icon">
+        <img src="assets/Logo/tiktok.png" alt="Ticktok Login" />
+      </a>
+    </div>
+
+
+    <div class="signup">
+      ยังไม่มีบัญชี? <a href="#">สมัครสมาชิก</a>
+    </div>
+  </div>
 
 </body>
 

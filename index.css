@@ -1,0 +1,124 @@
+/* พื้นหลังวิดีโอ */
+.videoBG {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+  
+  /* กล่องเข้าสู่ระบบ */
+  .login-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    text-align: center;
+  }
+  
+  /* โลโก้ */
+  .logo img {
+    width: 150px;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* อินพุตอีเมล/รหัสผ่าน */
+  .login-container input[type="email"],
+  .login-container input[type="password"] {
+    width: 80%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 1rem;
+  }
+  
+  /* ลิงก์ลืมรหัสผ่าน */
+  .forgot {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    color: #555;
+    text-decoration: none;
+  }
+  
+  .forgot:hover {
+    text-decoration: underline;
+  }
+  
+  /* ปุ่มเข้าสู่ระบบ */
+  .login-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #111827;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .login-btn:hover {
+    background-color: #1f2937;
+  }
+  
+  /* หรือ */
+  .or {
+    margin: 1.5rem 0 0.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* ไอคอนเข้าสู่ระบบโซเชียล */
+  .social-login-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  
+  .social-icon img {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.2s;
+  }
+  
+  .social-icon img:hover {
+    transform: scale(1.1);
+  }
+  
+  /* สมัครสมาชิก */
+  .signup {
+    font-size: 0.95rem;
+  }
+  
+  .signup a {
+    color: #1a73e8;
+    text-decoration: none;
+  }
+  
+  .signup a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Responsive */
+  @media (max-width: 480px) {
+    .login-container {
+      margin: 50px 1rem;
+      padding: 1.5rem;
+    }
+  
+    .logo img {
+      width: 120px;
+    }
+  }
+  

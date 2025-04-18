@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FastRecap Workspace</title>
+  <link rel="stylesheet" href="workspace.css" />
+</head>
+<body>
+  <div class="workspace-container">
+    <aside class="sidebar collapsed" id="sidebar">
+      <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
+      <nav>
+        <ul>
+          <li data-title="หน้าโปรไฟล์" onclick="showPage('profile', this)">
+            <img src="assets/icons/profile.png" alt="Profile">
+          </li>
+          <li data-title="หน้า Generate Video" onclick="showPage('generate', this)">
+            <img src="assets/icons/generate.png" alt="Generate">
+          </li>
+          <li data-title="หน้าเก็บวิดีโอ" onclick="showPage('library', this)">
+            <img src="assets/icons/library.png" alt="Library">
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <section id="profile" class="content-section">
+        <h1>หน้าโปรไฟล์</h1>
+        <p>ข้อมูลผู้ใช้งานจะแสดงที่นี่</p>
+      </section>
+
+      <section id="generate" class="content-section" style="display: none;">
+        <h1>หน้า Generate Video</h1>
+        <p>ฟีเจอร์สร้างวิดีโอ Recap จะอยู่ที่นี่</p>
+      </section>
+
+      <section id="library" class="content-section" style="display: none;">
+        <h1>หน้าเก็บวิดีโอ</h1>
+        <p>รวมวิดีโอที่สร้างไว้ก่อนหน้านี้</p>
+      </section>
+    </main>
+  </div>
+
+  <script src="workspace.js"></script>
+</body>
+</html>
