@@ -4,12 +4,12 @@ function showPage(pageId, clickedItem) {
     sections.forEach(section => {
       section.style.display = section.id === pageId ? 'block' : 'none';
     });
-  
+
     // ตั้ง active ให้กับ icon ที่คลิก
-    const menuItems = document.querySelectorAll('.sidebar nav ul li');
-    menuItems.forEach(item => item.classList.remove('active'));
-    if (clickedItem) clickedItem.classList.add('active');
-  }
+   const menuItems = document.querySelectorAll('.menu-item');
+  menuItems.forEach(item => item.classList.remove('active'));
+  if (clickedItem) clickedItem.classList.add('active');
+}
   
   // toggle sidebar ยืด-หด
   function toggleSidebar() {
@@ -20,7 +20,7 @@ function showPage(pageId, clickedItem) {
   
   // เรียก default active หน้าแรก
   window.onload = function () {
-    const firstMenu = document.querySelector('.sidebar nav ul li');
+    const firstMenu = document.querySelector('.menu-item');
     if (firstMenu) {
       firstMenu.classList.add('active');
     }

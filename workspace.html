@@ -12,14 +12,17 @@
       <div class="toggle-btn" onclick="toggleSidebar()">☰</div>
       <nav>
         <ul>
-          <li data-title="หน้าโปรไฟล์" onclick="showPage('profile', this)">
-            <img src="assets/icons/profile.png" alt="Profile">
+          <li class="menu-item" onclick="showPage('profile', this)">
+            <img src="assets/icons/profile.png" alt="Profile" />
+            <span class="menu-label">Profile</span>
           </li>
-          <li data-title="หน้า Generate Video" onclick="showPage('generate', this)">
-            <img src="assets/icons/generate.png" alt="Generate">
+          <li class="menu-item" onclick="showPage('generate', this)">
+            <img src="assets/icons/generate.png" alt="Create" />
+            <span class="menu-label">Create</span>
           </li>
-          <li data-title="หน้าเก็บวิดีโอ" onclick="showPage('library', this)">
-            <img src="assets/icons/library.png" alt="Library">
+          <li class="menu-item" onclick="showPage('library', this)">
+            <img src="assets/icons/library.png" alt="Library" />
+            <span class="menu-label">Library</span>
           </li>
         </ul>
       </nav>
