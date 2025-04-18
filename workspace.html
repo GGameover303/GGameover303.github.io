@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FastRecap Workspace</title>
   <link rel="stylesheet" href="workspace.css" />
 </head>
+
 <body>
   <div class="workspace-container">
     <aside class="sidebar collapsed" id="sidebar">
@@ -35,9 +37,14 @@
       </section>
 
       <section id="generate" class="content-section" style="display: none;">
-        <h1>หน้า Generate Video</h1>
-        <p>ฟีเจอร์สร้างวิดีโอ Recap จะอยู่ที่นี่</p>
+        <h1 style="text-align: center;">สร้างวิดีโอ Highlight</h1>
+
+        <div class="generate-form">
+          <textarea id="generate-input" placeholder="ใส่ข้อความเพื่อสร้างวิดีโอ..."></textarea>
+          <button id="generate-submit" disabled>ตกลง</button>
+        </div>
       </section>
+
 
       <section id="library" class="content-section" style="display: none;">
         <h1>หน้าเก็บวิดีโอ</h1>
@@ -48,4 +55,5 @@
 
   <script src="workspace.js"></script>
 </body>
+
 </html>
