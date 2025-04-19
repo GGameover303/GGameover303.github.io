@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -37,84 +38,6 @@ body {
   gap: 1rem;
 }
 
-.sidebar nav ul li {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  padding: 10px 15px;
-  transition: background 0.2s;
-  border-radius: 8px;
-}
-
-.sidebar nav ul li.active {
-  background-color: #1f2937;
-}
-
-.sidebar nav ul li.active::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 8px;
-  bottom: 8px;
-  width: 4px;
-  background-color: #3b82f6;
-  /* สีฟ้าเน้น */
-  border-radius: 4px;
-}
-
-
-.sidebar nav ul li img {
-  width: 28px;
-  height: 28px;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-  opacity: 0.7;
-}
-
-.sidebar nav ul li:hover img {
-  transform: scale(1.1);
-  opacity: 1;
-}
-
-.sidebar nav ul li.active img {
-  transform: scale(1.2);
-  filter: brightness(1.5);
-  opacity: 1;
-}
-
-.sidebar nav ul li::after {
-  content: attr(data-title);
-  position: absolute;
-  left: 80px;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #374151;
-  padding: 6px 10px;
-  border-radius: 6px;
-  color: white;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-  font-size: 0.875rem;
-}
-
-.sidebar.collapsed nav ul li:hover::after {
-  opacity: 1;
-}
-
-.sidebar.expanded nav ul li::after {
-  display: none;
-}
-
-/* Main content */
-.main-content {
-  flex-grow: 1;
-  padding: 2rem;
-  overflow-y: auto;
-}
-
 .menu-item {
   display: flex;
   align-items: center;
@@ -147,18 +70,6 @@ body {
   background-color: #1f2937;
 }
 
-.menu-item.active::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 8px;
-  bottom: 8px;
-  width: 4px;
-  background-color: #3b82f6;
-  border-radius: 4px;
-}
-
-/* ชื่อเมนู */
 .menu-label {
   color: white;
   font-size: 1rem;
@@ -169,10 +80,15 @@ body {
   width: 0;
 }
 
-/* แสดง label เมื่อ sidebar ถูกเปิด */
 .sidebar.expanded .menu-label {
   opacity: 1;
   width: auto;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 2rem;
+  overflow-y: auto;
 }
 
 .content-section {
@@ -191,7 +107,7 @@ body {
 }
 
 .generate-form textarea {
-  resize: vertical;
+  resize: none;
   min-height: 120px;
   padding: 1rem;
   font-size: 1rem;
@@ -199,12 +115,10 @@ body {
   border: 1px solid #ccc;
   outline: none;
   transition: border 0.2s ease;
-  resize: none;
 }
 
 .generate-form textarea:focus {
   border-color: #3b82f6;
-  resize: none ;
 }
 
 .generate-form button {
@@ -227,7 +141,6 @@ body {
   background-color: #2563eb;
 }
 
-/* loading ปกติ */
 .loading-spinner {
   width: 50px;
   height: 50px;
@@ -235,68 +148,16 @@ body {
   border-top: 5px solid #3b82f6;
   border-radius: 50%;
   animation: spin 1s linear infinite;
-
-  /* ตรงกลาง */
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 50px auto;
 }
 
-/* animation */
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
-}
-
-
-.video-list {
-  list-style: none;
-  padding: 0;
-  margin-top: 1rem;
-}
-
-.video-list li {
-  background: #f8fafc;
-  padding: 1rem;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.video-text {
-  flex-grow: 1;
-  margin-right: 1rem;
-  color: #333;
-}
-
-.video-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.video-actions button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 5px;
-  display: flex;
-  align-items: center;
-}
-
-.video-actions button img {
-  width: 24px;
-  height: 24px;
-  opacity: 0.8;
-  transition: opacity 0.2s ease;
-}
-
-.video-actions button:hover img {
-  opacity: 1;
 }
 
 .video-grid {
@@ -317,7 +178,6 @@ body {
   position: relative;
 }
 
-
 .video-card img.preview {
   width: 100%;
   height: 170px;
@@ -325,7 +185,6 @@ body {
   display: block;
   background-color: #e5e7eb;
 }
-
 
 .video-card .video-info {
   padding: 1rem;
@@ -372,4 +231,94 @@ body {
   opacity: 1;
 }
 
+/* Modal Styling */
+.video-modal {
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.video-modal-content {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  max-width: 900px;
+  width: 95%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.video-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+
+.modal-content-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+
+.modal-gif-wrapper {
+  flex: 0 0 70%;
+}
+
+.modal-gif-wrapper img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+
+.video-info-box {
+  flex: 0 0 30%;
+  background-color: #f9fafb;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  min-width: 150px;
+  max-width: 100%;
+  word-wrap: break-word; /* 💡 สำคัญ: ให้ตัดคำ */
+  overflow-wrap: break-word; /* สำหรับ browser ใหม่ */
+  box-sizing: border-box; /* ป้องกัน padding ดันกล่อง */
+}
+
+
+.video-info-box .gif-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+
+.video-info-box .gif-caption {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .modal-content-wrapper {
+    flex-direction: column;
+  }
+
+  .modal-gif-wrapper,
+  .video-info-box {
+    flex: 1 1 100%;
+  }
+}
