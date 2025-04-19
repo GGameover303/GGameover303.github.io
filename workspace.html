@@ -22,6 +22,10 @@
             <img src="assets/icons/generate.png" alt="Create" />
             <span class="menu-label">Create</span>
           </li>
+          <li class="menu-item" onclick="showPage('edit', this)">
+            <img src="assets/icons/edit.png" alt="Edit" />
+            <span class="menu-label">Edit</span>
+          </li>
           <li class="menu-item" onclick="showPage('library', this)">
             <img src="assets/icons/library.png" alt="Library" />
             <span class="menu-label">Library</span>
@@ -44,6 +48,24 @@
         </div>
         <div id="loading" class="loading-spinner" style="display: none;"></div>
       </section>
+
+      <section id="edit" class="content-section" style="display: none;">
+        <h1 style="text-align: center;">ปรับแต่งวิดีโอ</h1>
+        <div class="generate-form" id="edit-form">
+          <div id="edit-preview-wrapper" style="text-align: center;">
+            <img id="edit-preview-gif" src="" alt="GIF Preview"
+                 style="width: 100%; max-width: 500px; border-radius: 10px; display: none;" />
+            <p id="edit-placeholder-text" style="color: #666;">กดสร้างวิดีโอในหน้า create</p>
+          </div>
+          
+          <button id="edit-action-button">Apply Change</button>
+
+        </div>
+        <div id="edit-loading" class="loading-spinner" style="display: none;"></div>
+      </section>
+      
+      
+      
 
       <section id="library" class="content-section" style="display: none;">
         <h1>วิดีโอที่สร้างไว้</h1>

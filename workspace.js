@@ -1,9 +1,11 @@
-
 const gifSamples = [
   "https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif",
   "https://media.giphy.com/media/l0HlWm7IsVVfMcF1G/giphy.gif",
   "https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif"
 ];
+
+let currentEditingText = "";
+let currentGif = "";
 
 function openModal(gifUrl, caption, videoName) {
   document.getElementById("modal-gif").src = gifUrl;
@@ -11,9 +13,6 @@ function openModal(gifUrl, caption, videoName) {
   document.getElementById("modal-caption").textContent = caption;
   document.getElementById("video-modal").style.display = "flex";
 }
-
-
-
 
 function closeModal() {
   document.getElementById("video-modal").style.display = "none";
@@ -38,7 +37,73 @@ function showPage(pageId, clickedItem) {
   if (pageId === "library") {
     renderLibrary();
   }
+
+  if (pageId === "edit") {
+    const gifPreview = document.getElementById("edit-preview-gif");
+    const placeholder = document.getElementById("edit-placeholder-text");
+    const actionBtn = document.getElementById("edit-action-button");
+
+    const hasGif = !!currentGif;
+
+    if (gifPreview && placeholder && actionBtn) {
+      gifPreview.style.display = hasGif ? "block" : "none";
+      placeholder.style.display = hasGif ? "none" : "block";
+
+      if (hasGif) {
+        gifPreview.src = currentGif;
+        actionBtn.textContent = "Apply Change";
+        actionBtn.style.backgroundColor = "#10b981"; // เขียว
+        actionBtn.disabled = false;
+        actionBtn.onclick = () => applyChange(); // เชื่อมฟังก์ชัน apply
+      } else {
+        actionBtn.textContent = "ตกลง";
+        actionBtn.style.backgroundColor = "#3b82f6"; // ฟ้า
+        actionBtn.disabled = false;
+        actionBtn.onclick = () => showPage("generate"); // ย้ายไปหน้า Create
+      }
+    }
+  }
 }
+
+function applyChange() {
+  const editForm = document.getElementById("edit-form");
+  const editLoading = document.getElementById("edit-loading");
+  const gifPreview = document.getElementById("edit-preview-gif");
+  const placeholder = document.getElementById("edit-placeholder-text");
+  const textarea = document.getElementById("generate-input");
+  const submitBtn = document.getElementById("generate-submit");
+
+  if (!currentEditingText || !currentGif) return;
+
+  editForm.style.display = "none";
+  editLoading.style.display = "flex";
+
+  setTimeout(() => {
+    // 1. บันทึกวิดีโอลง localStorage
+    const old = JSON.parse(localStorage.getItem("recapVideos") || "[]");
+    old.push({ text: currentEditingText, created: new Date().toISOString() });
+    localStorage.setItem("recapVideos", JSON.stringify(old));
+
+    // 2. Reset ตัวแปร
+    currentEditingText = "";
+    currentGif = "";
+
+    // 3. Reset หน้า Edit
+    if (gifPreview) gifPreview.style.display = "none";
+    if (placeholder) placeholder.style.display = "block";
+
+    // 4. Reset หน้า Create
+    if (textarea) textarea.value = "";
+    if (submitBtn) submitBtn.disabled = true;
+
+    // 5. กลับไปหน้า Library
+    showPage("library");
+
+    editForm.style.display = "flex";
+    editLoading.style.display = "none";
+  }, 2000);
+}
+
 
 function renderLibrary() {
   const container = document.getElementById("library-grid");
@@ -152,20 +217,22 @@ window.onload = function () {
       const text = textarea.value.trim();
       if (!text) return;
 
-      form.style.display = "none";
-      loading.style.display = "flex";
+      currentEditingText = text;
+      currentGif = gifSamples[Math.floor(Math.random() * gifSamples.length)];
 
-      setTimeout(() => {
-        const old = JSON.parse(localStorage.getItem("recapVideos") || "[]");
-        old.push({ text, created: new Date().toISOString() });
-        localStorage.setItem("recapVideos", JSON.stringify(old));
+      showPage("edit");
 
-        showPage("library");
-        textarea.value = "";
-        submitBtn.disabled = true;
-        form.style.display = "flex";
-        loading.style.display = "none";
-      }, 2000);
+      const gifPreview = document.getElementById("edit-preview-gif");
+      const placeholder = document.getElementById("edit-placeholder-text");
+
+      if (gifPreview && placeholder) {
+        gifPreview.src = currentGif;
+        gifPreview.style.display = "block";
+        placeholder.style.display = "none";
+      }
+
+      textarea.value = "";
+      submitBtn.disabled = true;
     });
   }
 
