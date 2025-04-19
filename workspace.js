@@ -81,7 +81,7 @@ function applyChange() {
   setTimeout(() => {
     // 1. บันทึกวิดีโอลง localStorage
     const old = JSON.parse(localStorage.getItem("recapVideos") || "[]");
-    old.push({ text: currentEditingText, created: new Date().toISOString() });
+    old.push({ text: currentEditingText, gif: currentGif, created: new Date().toISOString() });
     localStorage.setItem("recapVideos", JSON.stringify(old));
 
     // 2. Reset ตัวแปร
@@ -122,9 +122,11 @@ function renderLibrary() {
     card.className = "video-card";
 
     const img = document.createElement("img");
-    img.src = "assets/icons/thumbnail.png";
+    img.src = item.gif || "assets/icons/thumbnail.png"; // ถ้ามี gif ใช้ gif, ถ้าไม่มีก็ fallback
     img.alt = "Video Preview";
     img.className = "preview";
+
+
 
     const info = document.createElement("div");
     info.className = "video-info";
@@ -189,8 +191,9 @@ function renderLibrary() {
 
     card.addEventListener("click", (e) => {
       if (e.target.closest(".video-actions")) return;
-      const randomGif = gifSamples[Math.floor(Math.random() * gifSamples.length)];
-      openModal(randomGif, item.text, `Video_${index + 1}`);
+      const gifToShow = item.gif || gifSamples[Math.floor(Math.random() * gifSamples.length)];
+      openModal(gifToShow, item.text, `Video_${index + 1}`);
+
     });
 
     container.appendChild(card);
