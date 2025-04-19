@@ -1,4 +1,3 @@
-
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -108,7 +107,8 @@ body {
 
 .generate-form textarea {
   resize: none;
-  min-height: 120px;
+  min-height: 200px;
+  min-width: 500px;
   padding: 1rem;
   font-size: 1rem;
   border-radius: 10px;
@@ -141,6 +141,12 @@ body {
   background-color: #2563eb;
 }
 
+#generate-submit {
+  display: block;
+  margin: 0 auto;
+}
+
+
 .loading-spinner {
   width: 50px;
   height: 50px;
@@ -171,7 +177,7 @@ body {
   width: 300px;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -239,7 +245,7 @@ body {
   top: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0,0,0,0.7);
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -291,12 +297,15 @@ body {
   background-color: #f9fafb;
   padding: 1rem;
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   min-width: 150px;
   max-width: 100%;
-  word-wrap: break-word; /* 💡 สำคัญ: ให้ตัดคำ */
-  overflow-wrap: break-word; /* สำหรับ browser ใหม่ */
-  box-sizing: border-box; /* ป้องกัน padding ดันกล่อง */
+  word-wrap: break-word;
+  /* 💡 สำคัญ: ให้ตัดคำ */
+  overflow-wrap: break-word;
+  /* สำหรับ browser ใหม่ */
+  box-sizing: border-box;
+  /* ป้องกัน padding ดันกล่อง */
 }
 
 
@@ -324,7 +333,8 @@ body {
 }
 
 #apply-change {
-  background-color: #10b981; /* สีเขียว Emerald */
+  background-color: #10b981;
+  /* สีเขียว Emerald */
 }
 
 #apply-change:hover:enabled {
@@ -340,4 +350,105 @@ body {
   color: #333;
   white-space: pre-wrap;
   min-height: 100px;
+}
+
+.generate-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.generate-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 300px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.generate-right {
+  width: 280px;
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.generate-right h3 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #333;
+}
+
+.external-video-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.external-video-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.external-video-item img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: transparent;
+  /* ✅ พื้นหลังใส */
+  display: block;
+}
+
+
+
+
+.external-video-item {
+  position: relative;
+}
+
+.video-thumbnail-wrapper {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  /* ✅ บังคับความสูงให้เท่ากัน */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.video-thumbnail-wrapper img:first-child {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* ✅ ทำให้รูป "ครอบเต็มพื้นที่" */
+  display: block;
+  background-color: #e5e7eb;
+  border-radius: 8px;
+}
+
+
+.video-icon-overlay {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 32px;
+  /* ✅ ขนาดที่คุณต้องการ */
+  height: 32px;
+  background: rgba(255, 255, 255, 0.85);
+  /* พื้นหลังขาวโปร่งเล็กน้อย */
+  padding: 4px;
+  border-radius: 50%;
+  box-shadow: none;
+  /* ✅ ลบเงา */
+  object-fit: contain;
+  /* ให้รูปอยู่ในขนาดโดยไม่บิดเบี้ยว */
 }

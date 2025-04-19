@@ -240,4 +240,39 @@ window.onload = function () {
   }
 
   renderLibrary();
+
+  const externalVideoList = document.getElementById("external-video-list");
+
+  if (externalVideoList) {
+    const externalSources = [
+      { gif: gifSamples[0], icon: "assets/icons/youtube.png", alt: "YouTube" },
+      { gif: gifSamples[1], icon: "assets/icons/facebook.png", alt: "Facebook" },
+      { gif: gifSamples[2], icon: "assets/icons/tiktok.png", alt: "TikTok" }
+    ];
+
+    externalSources.forEach(({ gif, icon, alt }) => {
+      const item = document.createElement("div");
+      item.className = "external-video-item";
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "video-thumbnail-wrapper";
+
+      const img = document.createElement("img");
+      img.src = gif;
+      img.alt = "External Video";
+
+      const overlay = document.createElement("img");
+      overlay.className = "video-icon-overlay";
+      overlay.src = icon;
+      overlay.alt = alt;
+
+      wrapper.appendChild(img);
+      wrapper.appendChild(overlay);
+      item.appendChild(wrapper);
+      externalVideoList.appendChild(item);
+    });
+  }
+
+
+
 };
