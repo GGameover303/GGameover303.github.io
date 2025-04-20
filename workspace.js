@@ -34,10 +34,12 @@ function showPage(pageId, clickedItem) {
   menuItems.forEach(item => item.classList.remove('active'));
   if (clickedItem) clickedItem.classList.add('active');
 
+  // ✅ หน้า library: แสดงคลังวิดีโอ
   if (pageId === "library") {
     renderLibrary();
   }
 
+  // ✅ หน้า edit: ตั้งค่า preview และปุ่ม
   if (pageId === "edit") {
     const gifPreview = document.getElementById("edit-preview-gif");
     const placeholder = document.getElementById("edit-placeholder-text");
@@ -54,16 +56,28 @@ function showPage(pageId, clickedItem) {
         actionBtn.textContent = "Apply Change";
         actionBtn.style.backgroundColor = "#10b981"; // เขียว
         actionBtn.disabled = false;
-        actionBtn.onclick = () => applyChange(); // เชื่อมฟังก์ชัน apply
+        actionBtn.onclick = () => applyChange();
       } else {
         actionBtn.textContent = "ตกลง";
         actionBtn.style.backgroundColor = "#3b82f6"; // ฟ้า
         actionBtn.disabled = false;
-        actionBtn.onclick = () => showPage("generate"); // ย้ายไปหน้า Create
+        actionBtn.onclick = () => showPage("generate");
       }
     }
   }
+
+  // ✅ หน้า generate: ยกเลิกการซ่อน element ต่างๆ
+  if (pageId === "generate") {
+    const form = document.getElementById("generate-form");
+    const sidebar = document.querySelector(".generate-right");
+    const progressBar = document.getElementById("create-progress-bar");
+
+    if (form) form.style.display = "flex";         // textarea + ปุ่ม
+    if (sidebar) sidebar.style.display = "block";  // วิดีโอจากแหล่งอื่น
+    if (progressBar) progressBar.style.display = "none"; // ซ่อน progress bar กลางจอ
+  }
 }
+
 
 function applyChange() {
   const editForm = document.getElementById("edit-form");
@@ -216,6 +230,8 @@ window.onload = function () {
       submitBtn.disabled = textarea.value.trim().length === 0;
     });
 
+
+    //OkayBTN
     submitBtn.addEventListener("click", () => {
       const text = textarea.value.trim();
       if (!text) return;
@@ -223,20 +239,46 @@ window.onload = function () {
       currentEditingText = text;
       currentGif = gifSamples[Math.floor(Math.random() * gifSamples.length)];
 
-      showPage("edit");
+      const form = document.getElementById("generate-form");
+      const sidebar = document.querySelector(".generate-right");
+      if (form) form.style.display = "none";
+      if (sidebar) sidebar.style.display = "none";
 
-      const gifPreview = document.getElementById("edit-preview-gif");
-      const placeholder = document.getElementById("edit-placeholder-text");
+      const bar = document.getElementById("create-progress-bar");
+      const fill = document.getElementById("create-progress-fill");
 
-      if (gifPreview && placeholder) {
-        gifPreview.src = currentGif;
-        gifPreview.style.display = "block";
-        placeholder.style.display = "none";
+      if (bar && fill) {
+        bar.style.display = "block";
+        fill.style.width = "0%";
+
+        let percent = 0;
+        const interval = setInterval(() => {
+          percent += 10;
+          fill.style.width = percent + "%";
+
+          if (percent >= 100) {
+            clearInterval(interval);
+            bar.style.display = "none";
+
+            showPage("edit");
+
+            const gifPreview = document.getElementById("edit-preview-gif");
+            const placeholder = document.getElementById("edit-placeholder-text");
+
+            if (gifPreview && placeholder) {
+              gifPreview.src = currentGif;
+              gifPreview.style.display = "block";
+              placeholder.style.display = "none";
+            }
+          }
+        }, 300);
       }
+
 
       textarea.value = "";
       submitBtn.disabled = true;
     });
+
   }
 
   renderLibrary();

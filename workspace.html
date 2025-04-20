@@ -41,34 +41,33 @@
       </section>
 
       <section id="generate" class="content-section" style="display: none;">
-      
         <div class="generate-layout">
-          <!-- textarea + ปุ่ม -->
+          <!-- ซ้าย: textarea + ปุ่ม -->
           <div class="generate-left">
             <div class="generate-form" id="generate-form">
-          
-              <!-- ✅ หัวข้อใหม่ -->
               <div class="generate-title">สร้างวิดีโอ Recap</div>
-          
-              <!-- textarea + ปุ่ม -->
               <textarea id="generate-input" placeholder="ใส่ข้อความเพื่อสร้างวิดีโอ..."></textarea>
               <button id="generate-submit" disabled>ตกลง</button>
             </div>
-          
             <div id="loading" class="loading-spinner" style="display: none;"></div>
           </div>
-          
         </div>
-      
-        <!-- แถบวิดีโอแหล่งอื่น -->
+
+        <!-- ขวา: วิดีโอจากแหล่งอื่น -->
         <div class="generate-right">
           <h3>วิดีโอจากแหล่งอื่น</h3>
           <div class="external-video-list" id="external-video-list">
             <!-- วิดีโอจาก JS -->
           </div>
         </div>
+
+        <!-- ✅ Progress Bar (กลางจอ) -->
+        <div id="create-progress-bar" class="edit-progress-bar center-progress" style="display: none;">
+          <div class="edit-progress-fill" id="create-progress-fill"></div>
+        </div>
       </section>
-      
+
+
 
       <section id="edit" class="content-section" style="display: none;">
         <h1 style="text-align: center;">ปรับแต่งวิดีโอ</h1>
