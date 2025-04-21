@@ -45,19 +45,6 @@ function showPage(pageId, clickedItem) {
     target.style.display = "block";
     target.classList.remove("slide-up", "slide-down");
 
-    requestAnimationFrame(() => {
-      target.classList.add(direction);
-
-      const fadeItems = target.querySelectorAll(".fade-item");
-      fadeItems.forEach((el, i) => {
-        el.classList.remove("fade-in");
-        setTimeout(() => {
-          el.classList.add("fade-in");
-        }, i * 100); // ช้าทีละ 100ms
-      });
-    });
-
-
     currentPage = pageId;
   }
 
@@ -137,6 +124,11 @@ function showPage(pageId, clickedItem) {
     });
   }
 
+  // Show or hide generate-right sidebar
+  const generateSidebar = document.getElementById("generate-sidebar");
+  if (generateSidebar) {
+    generateSidebar.style.display = (pageId === "generate") ? "block" : "none";
+  }
 
 }
 
@@ -324,30 +316,26 @@ window.onload = function () {
 
       const bar = document.getElementById("create-progress-bar");
       const fill = document.getElementById("create-progress-fill");
+      const percentText = document.getElementById("create-progress-text");
 
       if (bar && fill) {
         bar.style.display = "block";
         fill.style.width = "0%";
 
         let percent = 0;
+        bar.style.display = "block";
+
+
         const interval = setInterval(() => {
           percent += 10;
           fill.style.width = percent + "%";
+          percentText.textContent = percent + "%";
 
           if (percent >= 100) {
             clearInterval(interval);
             bar.style.display = "none";
-
-            showPage("edit");
-
-            const gifPreview = document.getElementById("edit-preview-gif");
-            const placeholder = document.getElementById("edit-placeholder-text");
-
-            if (gifPreview && placeholder) {
-              gifPreview.src = currentGif;
-              gifPreview.style.display = "block";
-              placeholder.style.display = "none";
-            }
+            percent = 0; // รีเซ็ตไว้ใช้รอบหน้า
+            showPage("edit")
           }
         }, 300);
       }
