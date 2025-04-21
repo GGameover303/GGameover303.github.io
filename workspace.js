@@ -7,6 +7,11 @@ const gifSamples = [
 let currentEditingText = "";
 let currentGif = "";
 
+const selectedVideos = new Set();
+const pageOrder = ["profile", "highlight", "generate", "edit", "library"];
+let currentPage = "profile"; // หรืออะไรก็ได้ตอนเริ่มต้น
+
+
 function openModal(gifUrl, caption, videoName) {
   document.getElementById("modal-gif").src = gifUrl;
   document.getElementById("modal-title").textContent = videoName;
@@ -25,26 +30,54 @@ function toggleSidebar() {
 }
 
 function showPage(pageId, clickedItem) {
-  const sections = document.querySelectorAll('.content-section');
+  const sections = document.querySelectorAll(".content-section");
   sections.forEach(section => {
-    section.style.display = section.id === pageId ? 'block' : 'none';
+    section.classList.remove("slide-up", "slide-down");
+    section.style.display = "none";
   });
 
-  const menuItems = document.querySelectorAll('.menu-item');
-  menuItems.forEach(item => item.classList.remove('active'));
-  if (clickedItem) clickedItem.classList.add('active');
+  const target = document.getElementById(pageId);
+  if (target) {
+    const currentIdx = pageOrder.indexOf(currentPage);
+    const nextIdx = pageOrder.indexOf(pageId);
+    const direction = nextIdx > currentIdx ? "slide-up" : "slide-down";
 
-  // ✅ หน้า library: แสดงคลังวิดีโอ
-  if (pageId === "library") {
-    renderLibrary();
+    target.style.display = "block";
+    target.classList.remove("slide-up", "slide-down");
+
+    requestAnimationFrame(() => {
+      target.classList.add(direction);
+
+      const fadeItems = target.querySelectorAll(".fade-item");
+      fadeItems.forEach((el, i) => {
+        el.classList.remove("fade-in");
+        setTimeout(() => {
+          el.classList.add("fade-in");
+        }, i * 100); // ช้าทีละ 100ms
+      });
+    });
+
+
+    currentPage = pageId;
   }
 
-  // ✅ หน้า edit: ตั้งค่า preview และปุ่ม
+  const menuItems = document.querySelectorAll(".menu-item");
+  menuItems.forEach(item => item.classList.remove("active"));
+  if (clickedItem) {
+    clickedItem.classList.add("active");
+  } else {
+    const autoActive = Array.from(menuItems).find(item =>
+      item.getAttribute("onclick")?.includes(`'${pageId}'`)
+    );
+    if (autoActive) autoActive.classList.add("active");
+  }
+
+  if (pageId === "library") renderLibrary();
+
   if (pageId === "edit") {
     const gifPreview = document.getElementById("edit-preview-gif");
     const placeholder = document.getElementById("edit-placeholder-text");
     const actionBtn = document.getElementById("edit-action-button");
-
     const hasGif = !!currentGif;
 
     if (gifPreview && placeholder && actionBtn) {
@@ -54,28 +87,57 @@ function showPage(pageId, clickedItem) {
       if (hasGif) {
         gifPreview.src = currentGif;
         actionBtn.textContent = "Apply Change";
-        actionBtn.style.backgroundColor = "#10b981"; // เขียว
+        actionBtn.style.backgroundColor = "#10b981";
         actionBtn.disabled = false;
         actionBtn.onclick = () => applyChange();
       } else {
         actionBtn.textContent = "ตกลง";
-        actionBtn.style.backgroundColor = "#3b82f6"; // ฟ้า
+        actionBtn.style.backgroundColor = "#3b82f6";
         actionBtn.disabled = false;
         actionBtn.onclick = () => showPage("generate");
       }
     }
   }
 
-  // ✅ หน้า generate: ยกเลิกการซ่อน element ต่างๆ
   if (pageId === "generate") {
     const form = document.getElementById("generate-form");
     const sidebar = document.querySelector(".generate-right");
     const progressBar = document.getElementById("create-progress-bar");
 
-    if (form) form.style.display = "flex";         // textarea + ปุ่ม
-    if (sidebar) sidebar.style.display = "block";  // วิดีโอจากแหล่งอื่น
-    if (progressBar) progressBar.style.display = "none"; // ซ่อน progress bar กลางจอ
+    if (form) form.style.display = "flex";
+    if (sidebar) sidebar.style.display = "block";
+    if (progressBar) progressBar.style.display = "none";
+
+    // ✅ Rebind selection behavior
+    const externalItems = document.querySelectorAll(".external-video-item");
+    externalItems.forEach((item, idx) => {
+      // reset visual
+      item.classList.remove("selected");
+
+      // remove old event listener (safety)
+      item.replaceWith(item.cloneNode(true));
+    });
+
+    // รี-query อีกครั้งหลัง replace
+    const refreshedItems = document.querySelectorAll(".external-video-item");
+    refreshedItems.forEach((item, idx) => {
+      item.addEventListener("click", () => {
+        item.classList.toggle("selected");
+
+        if (item.classList.contains("selected")) {
+          selectedVideos.add(idx);
+        } else {
+          selectedVideos.delete(idx);
+        }
+
+        const text = document.getElementById("generate-input").value.trim();
+        const submitBtn = document.getElementById("generate-submit");
+
+      });
+    });
   }
+
+
 }
 
 
@@ -108,7 +170,6 @@ function applyChange() {
 
     // 4. Reset หน้า Create
     if (textarea) textarea.value = "";
-    if (submitBtn) submitBtn.disabled = true;
 
     // 5. กลับไปหน้า Library
     showPage("library");
@@ -136,38 +197,11 @@ function renderLibrary() {
     card.className = "video-card";
 
     const img = document.createElement("img");
-    img.src = item.gif || "assets/icons/thumbnail.png"; // ถ้ามี gif ใช้ gif, ถ้าไม่มีก็ fallback
+    img.src = item.gif || "assets/icons/thumbnail.png";
     img.alt = "Video Preview";
     img.className = "preview";
 
-
-
-    const info = document.createElement("div");
-    info.className = "video-info";
-
-    const title = document.createElement("div");
-    title.className = "video-title";
-    title.textContent = `Video_${index + 1}`;
-
-    const footer = document.createElement("div");
-    footer.className = "video-footer";
-
-    const randomSec = Math.floor(60 + Math.random() * 60);
-    const minutes = String(Math.floor(randomSec / 60)).padStart(2, '0');
-    const seconds = String(randomSec % 60).padStart(2, '0');
-    const duration = `${minutes}:${seconds}`;
-
-    const caption = document.createElement("span");
-    caption.textContent = item.text;
-
-    const time = document.createElement("span");
-    time.textContent = duration;
-
-    footer.appendChild(caption);
-    footer.appendChild(time);
-    info.appendChild(title);
-    info.appendChild(footer);
-
+    // ✅ สร้าง actions ก่อน append
     const actions = document.createElement("div");
     actions.className = "video-actions";
 
@@ -199,6 +233,40 @@ function renderLibrary() {
     actions.appendChild(downloadBtn);
     actions.appendChild(deleteBtn);
 
+    // ✅ ส่วนจัดการข้อมูลวิดีโอ
+    const info = document.createElement("div");
+    info.className = "video-info";
+
+    const randomSec = Math.floor(60 + Math.random() * 60);
+    const minutes = String(Math.floor(randomSec / 60)).padStart(2, '0');
+    const seconds = String(randomSec % 60).padStart(2, '0');
+    const duration = `${minutes}:${seconds}`;
+
+    const titleRow = document.createElement("div");
+    titleRow.className = "video-title-row";
+
+    const title = document.createElement("div");
+    title.className = "video-title";
+    title.textContent = `Video_${index + 1}`;
+
+    const time = document.createElement("span");
+    time.className = "video-time";
+    time.textContent = duration;
+
+    titleRow.appendChild(title);
+    titleRow.appendChild(time);
+    info.appendChild(titleRow);
+
+    const footer = document.createElement("div");
+    footer.className = "video-footer";
+
+    const caption = document.createElement("span");
+    caption.textContent = item.text;
+
+    footer.appendChild(caption);
+    info.appendChild(footer);
+
+    // ✅ เพิ่มทุกส่วนเข้า card
     card.appendChild(img);
     card.appendChild(info);
     card.appendChild(actions);
@@ -207,11 +275,11 @@ function renderLibrary() {
       if (e.target.closest(".video-actions")) return;
       const gifToShow = item.gif || gifSamples[Math.floor(Math.random() * gifSamples.length)];
       openModal(gifToShow, item.text, `Video_${index + 1}`);
-
     });
 
     container.appendChild(card);
   });
+
 }
 
 window.onload = function () {
@@ -220,22 +288,32 @@ window.onload = function () {
     firstMenu.classList.add('active');
   }
 
+  showPage("profile");
+
   const textarea = document.getElementById("generate-input");
   const submitBtn = document.getElementById("generate-submit");
   const loading = document.getElementById("loading");
   const form = document.getElementById("generate-form");
 
   if (textarea && submitBtn && loading && form) {
-    textarea.addEventListener("input", () => {
-      submitBtn.disabled = textarea.value.trim().length === 0;
-    });
-
 
     //OkayBTN
     submitBtn.addEventListener("click", () => {
       const text = textarea.value.trim();
-      if (!text) return;
+      const selectedCount = selectedVideos.size;
 
+      // ✅ ตรวจสอบเงื่อนไข
+      if (text === "") {
+        alert("กรุณาใส่ข้อความก่อน");
+        return;
+      }
+
+      if (selectedCount < 2) {
+        alert("กรุณาเลือกวิดีโอตัวอย่างอย่างน้อย 2 อัน");
+        return;
+      }
+
+      // ✅ ถ้าเงื่อนไขครบ ทำงานตามปกติ
       currentEditingText = text;
       currentGif = gifSamples[Math.floor(Math.random() * gifSamples.length)];
 
@@ -274,10 +352,14 @@ window.onload = function () {
         }, 300);
       }
 
-
+      // ✅ เคลียร์ข้อมูลหลังจากตกลง
       textarea.value = "";
-      submitBtn.disabled = true;
+      selectedVideos.clear();
+      document.querySelectorAll(".external-video-item").forEach(item => {
+        item.classList.remove("selected");
+      });
     });
+
 
   }
 
@@ -313,8 +395,109 @@ window.onload = function () {
       item.appendChild(wrapper);
       externalVideoList.appendChild(item);
     });
+
+    // ✅ ตรงนี้สำคัญ!
+    bindExternalVideoEvents();
+
+
+
+    // ✅ ทำให้วิดีโอเลือกได้
+    const externalItems = document.querySelectorAll(".external-video-item");
+    externalItems.forEach((item, idx) => {
+      item.addEventListener("click", () => {
+        item.classList.toggle("selected");
+
+        if (item.classList.contains("selected")) {
+          selectedVideos.add(idx);
+        } else {
+          selectedVideos.delete(idx);
+        }
+
+        const text = textarea.value.trim();
+      });
+    });
+
   }
 
-
-
 };
+
+document.getElementById("highlight-submit").addEventListener("click", () => {
+  const url = document.getElementById("highlight-url-input").value.trim();
+  const min = document.getElementById("highlight-duration-min").value.trim();
+  const sec = document.getElementById("highlight-duration-sec").value.trim();
+
+
+  if (!url) {
+    alert("กรุณาใส่ URL ก่อนกดตกลง");
+    return;
+  }
+
+  if ((min === "" && sec === "") || (isNaN(min) && isNaN(sec))) {
+    alert("กรุณาระบุความยาวคลิปอย่างน้อย 1 ช่อง (นาทีหรือวินาที)");
+    return;
+  }
+
+  const minutes = parseInt(min, 10) || 0;
+  const seconds = parseInt(sec, 10) || 0;
+
+  if (minutes < 0 || seconds < 0 || seconds >= 60) {
+    alert("กรุณาใส่เวลาที่ถูกต้อง (วินาทีต้องอยู่ระหว่าง 0-59)");
+    return;
+  }
+
+  const duration = minutes * 60 + seconds;
+  if (duration === 0) {
+    alert("ระยะเวลาคลิปต้องมากกว่า 0 วินาที");
+    return;
+  }
+
+  // ซ่อน input ทั้งหมด
+  document.getElementById("highlight-header").style.display = "none";
+  document.getElementById("highlight-url-input").style.display = "none";
+  document.querySelector(".highlight-time-inputs").style.display = "none";
+  document.getElementById("highlight-submit").style.display = "none";
+
+
+  // แสดง progress bar
+  const bar = document.getElementById("highlight-progress-bar");
+  const fill = document.getElementById("highlight-progress-fill");
+  if (bar && fill) {
+    bar.style.display = "block";
+    fill.style.width = "0%";
+
+    let percent = 0;
+    const interval = setInterval(() => {
+      percent += 10;
+      fill.style.width = percent + "%";
+
+      if (percent >= 100) {
+        clearInterval(interval);
+        bar.style.display = "none";
+
+        // เพิ่มวิดีโอ Highlight เข้า library
+        const gif = gifSamples[Math.floor(Math.random() * gifSamples.length)];
+        const existing = JSON.parse(localStorage.getItem("recapVideos") || "[]");
+        existing.push({ text: "Highlight", gif });
+        localStorage.setItem("recapVideos", JSON.stringify(existing));
+
+        // ✅ เคลียร์ช่อง input
+        document.getElementById("highlight-url-input").value = "";
+        document.getElementById("highlight-duration-min").value = "";
+        document.getElementById("highlight-duration-sec").value = "";
+
+        // ✅ แสดง input กลับ (หรือจะไม่แสดงเพราะเปลี่ยนหน้าเลยก็ได้)
+        document.getElementById("highlight-header").style.display = "block";
+        document.getElementById("highlight-url-input").style.display = "block";
+        document.querySelector(".highlight-time-inputs").style.display = "flex";
+        document.getElementById("highlight-submit").style.display = "inline-block";
+
+        // ✅ ไปหน้า library
+        showPage("library");
+        renderLibrary();
+      }
+
+
+
+    }, 100);
+  }
+});

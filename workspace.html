@@ -18,6 +18,12 @@
             <img src="assets/icons/profile.png" alt="Profile" />
             <span class="menu-label">Profile</span>
           </li>
+
+          <li class="menu-item" onclick="showPage('highlight', this)">
+            <img src="assets/icons/highlight.png" alt="Highlight" />
+            <span class="menu-label">Highlight</span>
+          </li>
+
           <li class="menu-item" onclick="showPage('generate', this)">
             <img src="assets/icons/generate.png" alt="Create" />
             <span class="menu-label">Create</span>
@@ -36,36 +42,78 @@
 
     <main class="main-content">
       <section id="profile" class="content-section">
-        <h1>หน้าโปรไฟล์</h1>
-        <p>ข้อมูลผู้ใช้งานจะแสดงที่นี่</p>
+        <div class="profile-container fade-item">
+          <h1>Welcome to Your Profile</h1>
+          <p>นี่คือหน้าโปรไฟล์ของคุณ แสดงข้อมูลส่วนตัวหรือสถานะล่าสุดได้ที่นี่</p>
+        </div>
       </section>
+      
+
+      <section id="highlight" class="content-section" style="display: none;">
+        <div class="highlight-container fade-item">
+          
+          <div id="highlight-header">
+            <h1>หน้ารวม Highlight</h1>
+            <p>ใส่ URL วิดีโอจากแพลตฟอร์มต่าง ๆ เช่น YouTube, Facebook เป็นต้น</p>
+          </div>
+      
+          <textarea id="highlight-url-input" placeholder="วาง URL วิดีโอที่นี่..."></textarea>
+      
+          <div class="highlight-time-inputs">
+            <div class="time-field">
+              <label>ความยาวคลิป</label>
+              <div class="time-input-row">
+                <input type="number" id="highlight-duration-min" placeholder="นาที" min="0" />
+                <span>:</span>
+                <input type="number" id="highlight-duration-sec" placeholder="วินาที" min="0" max="59" />
+              </div>
+            </div>
+          </div>
+      
+          <button id="highlight-submit" class="highlight-submit-button">ตกลง</button>
+      
+          <div id="highlight-progress-bar" class="edit-progress-bar center-progress" style="display: none;">
+            <div class="edit-progress-fill" id="highlight-progress-fill"></div>
+          </div>
+      
+        </div>
+      </section>
+      
+
 
       <section id="generate" class="content-section" style="display: none;">
         <div class="generate-layout">
-          <!-- ซ้าย: textarea + ปุ่ม -->
           <div class="generate-left">
             <div class="generate-form" id="generate-form">
               <div class="generate-title">สร้างวิดีโอ Recap</div>
+      
+              <!-- Textarea -->
               <textarea id="generate-input" placeholder="ใส่ข้อความเพื่อสร้างวิดีโอ..."></textarea>
-              <button id="generate-submit" disabled>ตกลง</button>
+      
+              <!-- ปุ่มตกลง -->
+              <button id="generate-submit">ตกลง</button>
+      
+              <!-- ✅ ช่อง URL อ้างอิง -->
+              <div class="form-url-group fade-item">
+                <label for="generate-reference-url">ใส่ URL เพื่ออ้างอิงการสร้างวิดีโอของคุณ</label>
+                <input type="text" id="generate-reference-url" placeholder="https://example.com..." />
+              </div>
             </div>
+      
             <div id="loading" class="loading-spinner" style="display: none;"></div>
           </div>
         </div>
-
-        <!-- ขวา: วิดีโอจากแหล่งอื่น -->
+      
         <div class="generate-right">
           <h3>วิดีโอจากแหล่งอื่น</h3>
-          <div class="external-video-list" id="external-video-list">
-            <!-- วิดีโอจาก JS -->
-          </div>
+          <div class="external-video-list" id="external-video-list"></div>
         </div>
-
-        <!-- ✅ Progress Bar (กลางจอ) -->
+      
         <div id="create-progress-bar" class="edit-progress-bar center-progress" style="display: none;">
           <div class="edit-progress-fill" id="create-progress-fill"></div>
         </div>
       </section>
+      
 
 
 
@@ -91,6 +139,9 @@
         <h1>วิดีโอที่สร้างไว้</h1>
         <div id="library-grid" class="video-grid"></div>
       </section>
+      
+
+      
     </main>
   </div>
 
