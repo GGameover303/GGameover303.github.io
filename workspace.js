@@ -9,7 +9,7 @@ let currentGif = "";
 
 const selectedVideos = new Set();
 const pageOrder = ["profile", "highlight", "generate", "edit", "library"];
-let currentPage = "profile"; // หรืออะไรก็ได้ตอนเริ่มต้น
+let currentPage = ""; // หรืออะไรก็ได้ตอนเริ่มต้น
 
 
 function openModal(gifUrl, caption, videoName) {
@@ -280,7 +280,7 @@ window.onload = function () {
   if (firstMenu) {
     firstMenu.classList.add('active');
   }
-
+  
   showPage("profile");
 
   const textarea = document.getElementById("generate-input");
