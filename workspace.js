@@ -30,6 +30,7 @@ function toggleSidebar() {
 }
 
 function showPage(pageId, clickedItem) {
+  if (pageId === currentPage) return;
   const sections = document.querySelectorAll(".content-section");
   sections.forEach(section => {
     section.classList.remove("slide-up", "slide-down");
