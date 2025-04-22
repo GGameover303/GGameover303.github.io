@@ -72,7 +72,7 @@ body {
 }
 
 .menu-label {
-  color: white;
+  color: E0E0E0;
   font-size: 1rem;
   white-space: nowrap;
   overflow: hidden;
@@ -427,11 +427,6 @@ body {
   box-shadow: none !important;
 }
 
-
-
-
-
-
 .external-video-item {
   position: relative;
 }
@@ -556,7 +551,7 @@ body {
 .time-field label {
   font-size: 0.9rem;
   margin-bottom: 0.25rem;
-  color: #333;
+  color: #E0E0E0;
 }
 
 .time-input-row {
@@ -622,4 +617,176 @@ body {
   border-radius: 10px;
 }
 
-/*ตกแต่งทับ*/
+/*ตกแต่งทับ--------------------------------------------------------------------------------------------------------------------------*/
+/* === Creator Studio Theme === */
+/* === Creator Studio Theme === */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #202124;
+  color: #E0E0E0;
+  font-family: 'Inter', sans-serif;
+}
+
+.main-content {
+  background-color: #202124;
+  color: #E0E0E0;
+}
+
+.sidebar {
+  background-color: #1F1F1F;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar .toggle-btn {
+  color: #E0E0E0;
+}
+
+.menu-item.active {
+  background-color: #2C2C2C;
+  border-left: 4px solid #1E88E5;
+}
+
+.menu-item img {
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
+
+.menu-label {
+  font-size: 0.9rem;
+  color: #E0E0E0;
+  margin-bottom: 0.25rem;
+}
+
+.generate-title,
+h1,
+h3 {
+  color: #1E88E5;
+}
+
+.generate-form button,
+.highlight-submit-button,
+#apply-change,
+#edit-action-button {
+  background-color: #1E88E5;
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: 0.3s ease;
+  border: none;
+}
+
+.generate-form button:hover,
+.highlight-submit-button:hover,
+#apply-change:hover,
+#edit-action-button:hover {
+  background-color: #1565C0;
+}
+
+textarea,
+#highlight-url-input,
+.form-url-group input {
+  background-color: #2A2A2A;
+  color: #E0E0E0;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 1rem;
+  box-shadow: none;
+}
+
+textarea:focus,
+#highlight-url-input:focus,
+.form-url-group input:focus {
+  border-color: #1E88E5;
+  outline: none;
+}
+
+.form-url-group label,
+label {
+  color: #B0BEC5;
+}
+
+.video-card {
+  background-color: #2A2A2A;
+  border: 1px solid #444;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.video-title {
+  color: #FFFFFF;
+}
+
+.video-time,
+.video-footer {
+  color: #B0BEC5;
+}
+
+.video-modal-content {
+  background-color: #2A2A2A;
+  color: #E0E0E0;
+  border: 1px solid #1E88E5;
+}
+
+.video-info-box {
+  background-color: #2F2F2F;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  color: #E0E0E0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.video-info-box .gif-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1E88E5;
+  margin-bottom: 0.5rem;
+}
+
+.video-info-box .gif-caption {
+  font-size: 1rem;
+  color: #B0BEC5;
+}
+
+.generate-right {
+  background-color: #2A2A2A;
+  border-left: 2px solid #1E88E5;
+  color: #E0E0E0;
+}
+
+.generate-right h3 {
+  color: #1E88E5;
+}
+
+#edit-placeholder-text{
+  color: #E0E0E0;
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 1rem;
+  font-style: italic;
+}
+
+/* Remove neon-specific animations */
+@keyframes pulse-glow {}
+
+.highlight-submit-button {
+  animation: none;
+}
+
+#edit-preview-wrapper {
+  text-align: center;
+}
+
+#edit-preview-gif {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 400px;
+  border-radius: 10px;
+  display: none;
+  object-fit: contain;
+}
