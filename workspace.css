@@ -819,13 +819,14 @@ label {
 #full-bottom-banner {
   position: fixed;
   bottom: 0;
-  left: 80px;
-  /* เริ่มถัดจาก Sidebar */
-  width: calc(100vw - 80px);
-  /* ลบความกว้าง Sidebar */
+  left: 80px; /* เริ่มตรงกับ sidebar */
+  width: calc(100vw - 80px); /* ลบส่วน sidebar ออก */
   height: auto;
   object-fit: cover;
   z-index: 10;
+  display: none;
+  pointer-events: none; /* ป้องกันการคลิก */
+  margin-right: auto;
 }
 
 #side-right-banner {
@@ -834,9 +835,23 @@ label {
   right: 0;
   width: auto;
   height: calc(100vh - 120px);
+  object-fit: contain;
   z-index: 9;
-  overflow: hidden;
+  display: none;
 }
+
+@media (max-width: 768px) {
+  #full-bottom-banner {
+    width: 100vw;
+    left: 0;
+  }
+
+  #side-right-banner {
+    width: 100px;
+    height: auto;
+  }
+}
+
 
 /*----------------DashBoard CSS---------------------------------------------------------DashBoard CSS-----*/
 /* === Profile Page Layout Fixes === */
