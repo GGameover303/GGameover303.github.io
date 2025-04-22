@@ -841,16 +841,12 @@ label {
 }
 
 @media (max-width: 768px) {
-  #full-bottom-banner {
-    width: 100vw;
-    left: 0;
-  }
-
+  #full-bottom-banner,
   #side-right-banner {
-    width: 100px;
-    height: auto;
+    display: none !important;
   }
 }
+
 
 
 /*----------------DashBoard CSS---------------------------------------------------------DashBoard CSS-----*/
