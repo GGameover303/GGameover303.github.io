@@ -6,6 +6,10 @@ const gifSamples = [
 
 let currentEditingText = "";
 let currentGif = "";
+let enteredFromCreate = false;
+let sourceChart = null;
+
+
 
 const selectedVideos = new Set();
 const pageOrder = ["profile", "highlight", "generate", "edit", "library"];
@@ -61,6 +65,10 @@ function showPage(pageId, clickedItem) {
   }
 
   if (pageId === "library") renderLibrary();
+  if (pageId === "profile") {
+    renderProfileCharts();
+  }
+
 
   if (pageId === "edit") {
     const gifPreview = document.getElementById("edit-preview-gif");
@@ -131,6 +139,19 @@ function showPage(pageId, clickedItem) {
     generateSidebar.style.display = (pageId === "generate") ? "block" : "none";
   }
 
+  const sideBanner = document.getElementById("side-right-banner");
+  const bottomBanner = document.getElementById("full-bottom-banner");
+
+  if (pageId === "edit" && enteredFromCreate) {
+    if (sideBanner) sideBanner.style.display = "block";
+    if (bottomBanner) bottomBanner.style.display = "block";
+  } else {
+    if (sideBanner) sideBanner.style.display = "none";
+    if (bottomBanner) bottomBanner.style.display = "none";
+  }
+
+
+
 }
 
 
@@ -148,28 +169,27 @@ function applyChange() {
   editLoading.style.display = "flex";
 
   setTimeout(() => {
-    // 1. บันทึกวิดีโอลง localStorage
     const old = JSON.parse(localStorage.getItem("recapVideos") || "[]");
     old.push({ text: currentEditingText, gif: currentGif, created: new Date().toISOString() });
     localStorage.setItem("recapVideos", JSON.stringify(old));
 
-    // 2. Reset ตัวแปร
     currentEditingText = "";
     currentGif = "";
 
-    // 3. Reset หน้า Edit
     if (gifPreview) gifPreview.style.display = "none";
     if (placeholder) placeholder.style.display = "block";
 
-    // 4. Reset หน้า Create
     if (textarea) textarea.value = "";
 
-    // 5. กลับไปหน้า Library
+    // ✅ รีเซ็ต flag เพื่อไม่ให้แสดงแบนเนอร์อีก
+    enteredFromCreate = false;
+    updateDashboardStats();
     showPage("library");
 
     editForm.style.display = "flex";
     editLoading.style.display = "none";
   }, 2000);
+
 }
 
 
@@ -276,11 +296,12 @@ function renderLibrary() {
 }
 
 window.onload = function () {
+  updateDashboardStats();
   const firstMenu = document.querySelector('.menu-item');
   if (firstMenu) {
     firstMenu.classList.add('active');
   }
-  
+
   showPage("profile");
 
   const textarea = document.getElementById("generate-input");
@@ -294,6 +315,7 @@ window.onload = function () {
     submitBtn.addEventListener("click", () => {
       const text = textarea.value.trim();
       const selectedCount = selectedVideos.size;
+      enteredFromCreate = true;
 
       // ✅ ตรวจสอบเงื่อนไข
       if (text === "") {
@@ -481,6 +503,7 @@ document.getElementById("highlight-submit").addEventListener("click", () => {
         document.getElementById("highlight-submit").style.display = "inline-block";
 
         // ✅ ไปหน้า library
+        updateDashboardStats();
         showPage("library");
         renderLibrary();
       }
@@ -488,5 +511,92 @@ document.getElementById("highlight-submit").addEventListener("click", () => {
 
 
     }, 100);
+  }
+});
+
+function updateDashboardStats() {
+  const videos = JSON.parse(localStorage.getItem("recapVideos") || "[]");
+  const count = videos.length;
+  const videoCountEl = document.getElementById("video-count");
+  if (videoCountEl) {
+    videoCountEl.textContent = count;
+  }
+}
+
+document.getElementById("add-account-icon").addEventListener("click", function () {
+  const icon = document.getElementById("add-account-icon");
+  icon.src = "assets/icons/instagram.png";  // เปลี่ยนเป็นไอคอนบัญชี YouTube
+  icon.title = "Instagram (เชื่อมต่อแล้ว)";
+  icon.alt = "Instagram";
+});
+
+let sourceChartInstance = null;
+
+function renderProfileCharts() {
+  const sourceCtx = document.getElementById("sourceChart").getContext("2d");
+  const popularityCtx = document.getElementById("popularityChart").getContext("2d");
+
+  sourceChartInstance = new Chart(sourceCtx, {
+    type: "doughnut",
+    data: {
+      labels: ["YouTube", "Facebook", "TikTok"],
+      datasets: [{
+        label: "Source",
+        data: [5, 3, 2],
+        backgroundColor: ["#ef4444", "#3b82f6", "#000000"],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { labels: { color: "#fff" } }
+      }
+    }
+  });
+
+  new Chart(popularityCtx, {
+    type: "bar",
+    data: {
+      labels: ["Video 1", "Video 2", "Video 3"],
+      datasets: [
+        {
+          label: "Views",
+          data: [100, 300, 150],
+          backgroundColor: "#3b82f6"
+        },
+        {
+          label: "Likes",
+          data: [60, 180, 90],
+          backgroundColor: "#ec4899"
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        legend: { labels: { color: "#fff" } }
+      },
+      scales: {
+        x: { ticks: { color: "#fff" } },
+        y: { ticks: { color: "#fff" } }
+      }
+    }
+  });
+}
+
+document.getElementById("add-account-icon").addEventListener("click", () => {
+  const icon = document.getElementById("add-account-icon");
+
+  // เปลี่ยนไอคอนเป็น Instagram
+  icon.src = "assets/icons/instagram.png";
+  icon.alt = "Instagram";
+  icon.title = "Instagram";
+  icon.id = ""; // ป้องกันไม่ให้คลิกซ้ำ
+
+  // ✅ เพิ่ม Instagram ใน chart
+  if (sourceChartInstance) {
+    sourceChartInstance.data.labels.push("Instagram");
+    sourceChartInstance.data.datasets[0].data.push(4); // จำนวนตัวอย่าง
+    sourceChartInstance.data.datasets[0].backgroundColor.push("#e1306c"); // สี Instagram
+    sourceChartInstance.update();
   }
 });

@@ -94,7 +94,8 @@ body {
 
 .content-section {
   display: none;
-  opacity: 1 !important; /* <-- เพิ่ม !important ให้แน่ใจว่าไม่มี style อื่น override */
+  opacity: 1 !important;
+  /* <-- เพิ่ม !important ให้แน่ใจว่าไม่มี style อื่น override */
   transform: none;
   transition: none;
 }
@@ -503,7 +504,8 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 9999; /* สูงสุดกันเหนียว */
+  z-index: 9999;
+  /* สูงสุดกันเหนียว */
 }
 
 
@@ -762,7 +764,7 @@ label {
   color: #1E88E5;
 }
 
-#edit-placeholder-text{
+#edit-placeholder-text {
   color: #E0E0E0;
   text-align: center;
   font-size: 1rem;
@@ -782,11 +784,231 @@ label {
 }
 
 #edit-preview-gif {
-  width: auto;
-  max-width: 100%;
+  width: 100%;
+  max-width: 480px;
   height: auto;
-  max-height: 400px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
   border-radius: 10px;
-  display: none;
-  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  ;
+}
+
+#edit-action-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 1.5rem;
+  display: inline-block;
+  width: auto;
+  /* ไม่เต็มความกว้าง */
+  max-width: 200px;
+  /* จำกัดความกว้างสูงสุด */
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+#full-bottom-banner {
+  position: fixed;
+  bottom: 0;
+  left: 80px;
+  /* เริ่มถัดจาก Sidebar */
+  width: calc(100vw - 80px);
+  /* ลบความกว้าง Sidebar */
+  height: auto;
+  object-fit: cover;
+  z-index: 10;
+}
+
+#side-right-banner {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: auto;
+  height: calc(100vh - 120px);
+  z-index: 9;
+  overflow: hidden;
+}
+
+/*----------------DashBoard CSS---------------------------------------------------------DashBoard CSS-----*/
+/* === Profile Page Layout Fixes === */
+
+/* === Profile Page Layout Fixes === */
+
+.profile-dashboard-wrapper {
+  background: rgba(20, 20, 30, 0.8);
+  border: 1px solid #3b82f6;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  width: 100%;
+  height: calc(100vh - 40px);
+  box-sizing: border-box;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 0;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid #3b82f6;
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 960px;
+  box-sizing: border-box;
+}
+
+.profile-avatar {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.profile-info h2,
+.profile-info p {
+  margin: 0;
+  color: #fff;
+  text-align: left;
+}
+
+.username {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.connected-icons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.connected-icons img {
+  width: 32px;
+  height: 32px;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.connected-icons img:hover {
+  transform: scale(1.15);
+}
+
+.dashboard-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  width: 100%;
+  max-width: 960px;
+  margin-top: 2rem;
+  box-sizing: border-box;
+}
+
+.dashboard-container {
+  width: 50%;
+  box-sizing: border-box;
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-stats {
+  display: flex;
+  justify-content: flex-start;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #3b82f6;
+  padding: 1.5rem;
+  border-radius: 12px;
+  min-width: 180px;
+}
+
+.stat-card h2 {
+  font-size: 2.5rem;
+  color: #3b82f6;
+  margin: 0;
+}
+
+.stat-card p {
+  margin: 0.5rem 0 0;
+  color: #ccc;
+}
+
+.dashboard-actions {
+  margin-top: 1rem;
+}
+
+.dashboard-actions button {
+  background-color: #ec4899;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 0 0.5rem 0 0;
+  transition: background-color 0.2s ease;
+}
+
+.dashboard-actions button:hover {
+  background-color: #db2777;
+}
+
+/* === Charts layout === */
+
+.dashboard-charts {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  box-sizing: border-box;
+}
+
+.chart-box canvas {
+  max-width: 500;
+  max-height: 500;
+  margin: 0 auto;
+  display: block;
+}
+
+
+.chart-box {
+  flex: 1 1 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #3b82f6;
+  border-radius: 12px;
+  padding: 1rem;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.chart-box h3 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #fff;
+  text-align: center;
 }

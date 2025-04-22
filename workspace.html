@@ -43,11 +43,52 @@
     <main class="main-content">
 
       <section id="profile" class="content-section">
-        <div class="profile-container">
-          <h1>Welcome to Your Profile</h1>
-          <p>นี่คือหน้าโปรไฟล์ของคุณ แสดงข้อมูลส่วนตัวหรือสถานะล่าสุดได้ที่นี่</p>
+        <div class="profile-dashboard-wrapper">
+          <div class="profile-card">
+            <img src="assets/icons/user.jpg" alt="User" class="profile-avatar" />
+            <div class="profile-info">
+              <h2 class="username">GGameover</h2>
+              <div class="connected-icons" id="connected-icons">
+                <img src="assets/icons/youtube.png" alt="YouTube" title="YouTube" />
+                <img src="assets/icons/facebook.png" alt="Facebook" title="Facebook" />
+                <img src="assets/icons/tiktok.png" alt="TikTok" title="TikTok" />
+                <img id="add-account-icon" src="assets/icons/add.png" alt="เพิ่มบัญชี" title="เพิ่มบัญชี" />
+              </div>
+            </div>
+          </div>
+      
+          <div class="dashboard-main">
+            <div class="dashboard-container">
+              <h1 class="dashboard-title">🎬 สรุปข้อมูลของคุณ</h1>
+              <div class="dashboard-stats">
+                <div class="stat-card">
+                  <h2 id="video-count">0</h2>
+                  <p>วิดีโอที่สร้างแล้ว</p>
+                </div>
+              </div>
+              <div class="dashboard-actions">
+                <button onclick="showPage('generate')">สร้างวิดีโอใหม่</button>
+                <button onclick="showPage('library')">ดูคลังวิดีโอ</button>
+              </div>
+            </div>
+          
+            <div class="dashboard-charts">
+              <div class="chart-box">
+                <h3>แหล่งที่มาของวิดีโอ</h3>
+                <canvas id="sourceChart"></canvas>
+              </div>
+              <div class="chart-box">
+                <h3>ความนิยมของวิดีโอ</h3>
+                <canvas id="popularityChart"></canvas>
+              </div>
+            </div>
+          </div>
+          
         </div>
       </section>
+      
+
+
 
 
 
@@ -147,6 +188,11 @@
       <div class="external-video-list" id="external-video-list"></div>
     </div>
 
+    <img src="assets/Editor/KeyFrame.png" id="full-bottom-banner" />
+    <img src="assets/Editor/PropertiesEdit.png" id="side-right-banner" />
+
+
+
 
 
   </div>
@@ -172,6 +218,7 @@
   </div>
 
   <script src="workspace.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 
 </html>
