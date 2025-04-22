@@ -35,6 +35,12 @@ function toggleSidebar() {
 
 function showPage(pageId, clickedItem) {
   if (pageId === currentPage) return;
+
+  const generateSidebar = document.querySelector(".generate-right");
+  if (generateSidebar) {
+    generateSidebar.style.display = (pageId === "generate") ? "block" : "none";
+  }
+
   const sections = document.querySelectorAll(".content-section");
   sections.forEach(section => {
     section.classList.remove("slide-up", "slide-down");
@@ -65,10 +71,7 @@ function showPage(pageId, clickedItem) {
   }
 
   if (pageId === "library") renderLibrary();
-  if (pageId === "profile") {
-    renderProfileCharts();
-  }
-
+  if (pageId === "profile") renderProfileCharts();
 
   if (pageId === "edit") {
     const gifPreview = document.getElementById("edit-preview-gif");
@@ -97,48 +100,32 @@ function showPage(pageId, clickedItem) {
 
   if (pageId === "generate") {
     const form = document.getElementById("generate-form");
-    const sidebar = document.querySelector(".generate-right");
     const progressBar = document.getElementById("create-progress-bar");
 
     if (form) form.style.display = "flex";
-    if (sidebar) sidebar.style.display = "block";
     if (progressBar) progressBar.style.display = "none";
 
-    // ✅ Rebind selection behavior
+    // รีเซ็ต external video selections
     const externalItems = document.querySelectorAll(".external-video-item");
     externalItems.forEach((item, idx) => {
-      // reset visual
       item.classList.remove("selected");
-
-      // remove old event listener (safety)
       item.replaceWith(item.cloneNode(true));
     });
 
-    // รี-query อีกครั้งหลัง replace
     const refreshedItems = document.querySelectorAll(".external-video-item");
     refreshedItems.forEach((item, idx) => {
       item.addEventListener("click", () => {
         item.classList.toggle("selected");
-
         if (item.classList.contains("selected")) {
           selectedVideos.add(idx);
         } else {
           selectedVideos.delete(idx);
         }
-
-        const text = document.getElementById("generate-input").value.trim();
-        const submitBtn = document.getElementById("generate-submit");
-
       });
     });
   }
 
-  // Show or hide generate-right sidebar
-  const generateSidebar = document.getElementById("generate-sidebar");
-  if (generateSidebar) {
-    generateSidebar.style.display = (pageId === "generate") ? "block" : "none";
-  }
-
+  // ✅ จัดการแสดง/ซ่อนแบนเนอร์
   const sideBanner = document.getElementById("side-right-banner");
   const bottomBanner = document.getElementById("full-bottom-banner");
 
@@ -149,10 +136,8 @@ function showPage(pageId, clickedItem) {
     if (sideBanner) sideBanner.style.display = "none";
     if (bottomBanner) bottomBanner.style.display = "none";
   }
-
-
-
 }
+
 
 
 function applyChange() {
