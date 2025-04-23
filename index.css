@@ -148,7 +148,7 @@
   max-width: 400px;
   margin: 100px auto;
   padding: 2rem;
-  background: rgba(0, 0, 0, 0.6); /* 🧊 กล่องดำโปร่ง */
+  background: rgba(0, 0, 0, 0.24); /* 🧊 กล่องดำโปร่ง */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   backdrop-filter: blur(12px); /* 💡 เบลอพื้นหลังวิดีโอ */
