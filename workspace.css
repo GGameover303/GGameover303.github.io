@@ -512,9 +512,14 @@ body {
 
 
 #highlight {
-  padding: 2rem;
-  min-height: 100vh;
+  height: 100%;
+  overflow: hidden; /* ❌ ห้าม scroll */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+
 
 .highlight-container {
   max-width: 600px;
