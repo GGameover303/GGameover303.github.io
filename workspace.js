@@ -1,8 +1,15 @@
 const gifSamples = [
-  "https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif",
-  "https://media.giphy.com/media/l0HlWm7IsVVfMcF1G/giphy.gif",
-  "https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif"
+  "https://media1.tenor.com/m/2roX3uxz_68AAAAC/cat-space.gif",
+  "https://media1.tenor.com/m/1JuAyubK6zoAAAAC/bocchi-the-rock-hitori-gotoh.gif",
+  "https://media1.tenor.com/m/WUSDTcIh_NoAAAAC/i-love-i-love-i-love-repo-i-love-repo.gif"
 ];
+
+const finalGifSamples = [
+  "https://media.giphy.com/media/5VKbvrjxpVJCM/giphy.gif",
+  "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExejllMmEwODdsMnlybDh4Y2xjNmRqZmprMmdxNW81NHFzcGE5OTZpNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Ju7l5y9osyymQ/giphy.gif",
+  "https://media1.tenor.com/m/Ax7JUhhhMt4AAAAC/angry-typing-kitty.gif"
+];
+
 
 let currentEditingText = "";
 let currentGif = "";
@@ -153,20 +160,26 @@ function applyChange() {
   editForm.style.display = "none";
   editLoading.style.display = "flex";
 
+  const newRandomGif = finalGifSamples[Math.floor(Math.random() * finalGifSamples.length)];
+  const finalGif = newRandomGif || currentGif;
+
   setTimeout(() => {
     const old = JSON.parse(localStorage.getItem("recapVideos") || "[]");
-    old.push({ text: currentEditingText, gif: currentGif, created: new Date().toISOString() });
+    old.push({
+      text: currentEditingText,
+      gif: finalGif,
+      created: new Date().toISOString()
+    });
     localStorage.setItem("recapVideos", JSON.stringify(old));
 
+    // รีเซ็ต
     currentEditingText = "";
     currentGif = "";
 
     if (gifPreview) gifPreview.style.display = "none";
     if (placeholder) placeholder.style.display = "block";
-
     if (textarea) textarea.value = "";
 
-    // ✅ รีเซ็ต flag เพื่อไม่ให้แสดงแบนเนอร์อีก
     enteredFromCreate = false;
     updateDashboardStats();
     showPage("library");
@@ -422,7 +435,6 @@ document.getElementById("highlight-submit").addEventListener("click", () => {
   const min = document.getElementById("highlight-duration-min").value.trim();
   const sec = document.getElementById("highlight-duration-sec").value.trim();
 
-
   if (!url) {
     alert("กรุณาใส่ URL ก่อนกดตกลง");
     return;
@@ -453,10 +465,9 @@ document.getElementById("highlight-submit").addEventListener("click", () => {
   document.querySelector(".highlight-time-inputs").style.display = "none";
   document.getElementById("highlight-submit").style.display = "none";
 
-
-  // แสดง progress bar
   const bar = document.getElementById("highlight-progress-bar");
   const fill = document.getElementById("highlight-progress-fill");
+
   if (bar && fill) {
     bar.style.display = "block";
     fill.style.width = "0%";
@@ -470,34 +481,29 @@ document.getElementById("highlight-submit").addEventListener("click", () => {
         clearInterval(interval);
         bar.style.display = "none";
 
-        // เพิ่มวิดีโอ Highlight เข้า library
-        const gif = gifSamples[Math.floor(Math.random() * gifSamples.length)];
+        // ✅ ใช้ finalGifSamples แทน gifSamples
+        const gif = finalGifSamples[Math.floor(Math.random() * finalGifSamples.length)];
         const existing = JSON.parse(localStorage.getItem("recapVideos") || "[]");
         existing.push({ text: "Highlight", gif });
         localStorage.setItem("recapVideos", JSON.stringify(existing));
 
-        // ✅ เคลียร์ช่อง input
         document.getElementById("highlight-url-input").value = "";
         document.getElementById("highlight-duration-min").value = "";
         document.getElementById("highlight-duration-sec").value = "";
 
-        // ✅ แสดง input กลับ (หรือจะไม่แสดงเพราะเปลี่ยนหน้าเลยก็ได้)
         document.getElementById("highlight-header").style.display = "block";
         document.getElementById("highlight-url-input").style.display = "block";
         document.querySelector(".highlight-time-inputs").style.display = "flex";
         document.getElementById("highlight-submit").style.display = "inline-block";
 
-        // ✅ ไปหน้า library
         updateDashboardStats();
         showPage("library");
         renderLibrary();
       }
-
-
-
     }, 100);
   }
 });
+
 
 function updateDashboardStats() {
   const videos = JSON.parse(localStorage.getItem("recapVideos") || "[]");
@@ -508,12 +514,62 @@ function updateDashboardStats() {
   }
 }
 
-document.getElementById("add-account-icon").addEventListener("click", function () {
+document.getElementById("add-account-icon").addEventListener("click", () => {
   const icon = document.getElementById("add-account-icon");
-  icon.src = "assets/icons/instagram.png";  // เปลี่ยนเป็นไอคอนบัญชี YouTube
-  icon.title = "Instagram (เชื่อมต่อแล้ว)";
+
+  // เปลี่ยนไอคอนเป็น Instagram
+  icon.src = "assets/icons/instagram.png";
   icon.alt = "Instagram";
+  icon.title = "Instagram";
+  icon.id = ""; // ป้องกันไม่ให้คลิกซ้ำ
+
+  // ✅ เพิ่ม Instagram ใน chart
+  if (sourceChartInstance) {
+    sourceChartInstance.data.labels.push("Instagram");
+    sourceChartInstance.data.datasets[0].data.push(4); // จำนวนตัวอย่าง
+    sourceChartInstance.data.datasets[0].backgroundColor.push("#e1306c"); // สี Instagram
+    sourceChartInstance.update();
+  }
+
+  // ✅ เพิ่มวิดีโอ Instagram เข้า external-video-list
+  const externalVideoList = document.getElementById("external-video-list");
+  if (externalVideoList) {
+    const gif = "https://media.tenor.com/A-jCKO9A10wAAAAi/bugcat-capoo.gif"; // Instagram sample GIF
+    const icon = "assets/icons/instagram.png";
+
+    const item = document.createElement("div");
+    item.className = "external-video-item";
+
+    const wrapper = document.createElement("div");
+    wrapper.className = "video-thumbnail-wrapper";
+
+    const img = document.createElement("img");
+    img.src = gif;
+    img.alt = "Instagram Video";
+
+    const overlay = document.createElement("img");
+    overlay.className = "video-icon-overlay";
+    overlay.src = icon;
+    overlay.alt = "Instagram";
+
+    wrapper.appendChild(img);
+    wrapper.appendChild(overlay);
+    item.appendChild(wrapper);
+    externalVideoList.appendChild(item);
+
+    // ✅ ให้คลิกเลือกได้ด้วย
+    const idx = document.querySelectorAll(".external-video-item").length - 1;
+    item.addEventListener("click", () => {
+      item.classList.toggle("selected");
+      if (item.classList.contains("selected")) {
+        selectedVideos.add(idx);
+      } else {
+        selectedVideos.delete(idx);
+      }
+    });
+  }
 });
+
 
 let sourceChartInstance = null;
 
