@@ -78,7 +78,10 @@ function showPage(pageId, clickedItem) {
   }
 
   if (pageId === "library") renderLibrary();
-  if (pageId === "profile") renderProfileCharts();
+  if (pageId === "profile") {
+    updateDashboardStats();
+    renderProfileCharts();
+  }
 
   if (pageId === "edit") {
     const gifPreview = document.getElementById("edit-preview-gif");
